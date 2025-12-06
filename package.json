@@ -4,12 +4,15 @@
   "description": "Scaletta canzoni con backend semplice per aggiungere/rimuovere brani",
   "type": "module",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "dotenv -e .env -- node server.js",
     "start": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^7.3.0"
   }
 }
-

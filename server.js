@@ -1,26 +1,38 @@
 import cors from "cors";
 import express from "express";
 import { randomUUID } from "node:crypto";
-import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { Pool } from "pg";
 
 const PORT = process.env.PORT || 4000;
 const ALLOWED_VOICES = ["lucio", "cristiano"];
 const ALLOWED_INSTRUMENTS = ["chitarra", "basso"];
-const NODE_ENV = process.env.NODE_ENV || "development";
-const BASIC_USER = process.env.MCHIC_USER || (NODE_ENV === "development" ? "mchic" : null);
-const BASIC_PASS = process.env.MCHIC_PASS || (NODE_ENV === "development" ? "mammachoilcanto" : null);
+const NODE_ENV = process.env.NODE_ENV;
+const BASIC_USER = process.env.MCHIC_USER;
+const BASIC_PASS = process.env.MCHIC_PASS;
+const DATABASE_URL = NODE_ENV === "prod" ? process.env.DB_URL_PROD : process.env.DB_URL_DEV;
 
 if (!BASIC_USER || !BASIC_PASS) {
-  throw new Error("MCHIC_USER e MCHIC_PASS devono essere impostate in produzione.");
+  throw new Error("MCHIC_USER e MCHIC_PASS devono essere impostate");
 }
+
+if (!DATABASE_URL) {
+  throw new Error(
+    NODE_ENV === "dev"
+      ? "Imposta DB_URL_DEV per collegarsi al Postgres di sviluppo"
+      : "Imposta DB_URL_PROD per collegarsi al Postgres di produzione"
+  );
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DB_DIR = path.join(__dirname, "db");
-const DB_PATH = path.join(DB_DIR, "songs.json");
-const SEED_PATH = path.join(__dirname, "seed", "songs.json");
 const PUBLIC_DIR = path.join(__dirname, "public");
+
+const pool = new Pool({
+  connectionString: DATABASE_URL,
+  ssl: NODE_ENV === "dev" ? false : { rejectUnauthorized: false },
+});
 
 const app = express();
 
@@ -44,8 +56,12 @@ app.get("/api/health", (req, res) => {
 
 app.get("/api/songs", async (req, res, next) => {
   try {
-    const songs = await readSongs();
-    res.json(songs);
+    const { rows } = await pool.query(
+      `select id, author, title, voices, instruments, key_offset
+         from songs
+        order by lower(author), lower(title);`
+    );
+    res.json(rows.map(mapSongRow));
   } catch (error) {
     next(error);
   }
@@ -58,12 +74,14 @@ app.post("/api/songs", async (req, res, next) => {
       return res.status(400).json({ message: payload.error });
     }
 
-    const songs = await readSongs();
-    const newSong = { id: randomUUID(), ...payload };
-
-    songs.push(newSong);
-    await writeSongs(songs);
-    res.status(201).json(newSong);
+    const id = randomUUID();
+    const { rows } = await pool.query(
+      `insert into songs (id, author, title, voices, instruments, key_offset)
+       values ($1, $2, $3, $4, $5, $6)
+       returning *;`,
+      [id, payload.author, payload.title, payload.voices, payload.instruments, payload.keyOffset]
+    );
+    res.status(201).json(mapSongRow(rows[0]));
   } catch (error) {
     next(error);
   }
@@ -75,17 +93,21 @@ app.put("/api/songs/:id", async (req, res, next) => {
     if ("error" in payload) {
       return res.status(400).json({ message: payload.error });
     }
-
-    const songs = await readSongs();
-    const index = songs.findIndex((song) => song.id === req.params.id);
-    if (index === -1) {
+    const { rows } = await pool.query(
+      `update songs
+          set author = $1,
+              title = $2,
+              voices = $3,
+              instruments = $4,
+              key_offset = $5
+        where id = $6
+        returning *;`,
+      [payload.author, payload.title, payload.voices, payload.instruments, payload.keyOffset, req.params.id]
+    );
+    if (!rows.length) {
       return res.status(404).json({ message: "Brano non trovato." });
     }
-
-    const updatedSong = { ...songs[index], ...payload };
-    songs[index] = updatedSong;
-    await writeSongs(songs);
-    res.json(updatedSong);
+    res.json(mapSongRow(rows[0]));
   } catch (error) {
     next(error);
   }
@@ -93,24 +115,11 @@ app.put("/api/songs/:id", async (req, res, next) => {
 
 app.delete("/api/songs/:id", async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const songs = await readSongs();
-    const index = songs.findIndex((song) => song.id === id);
-    if (index === -1) {
+    const { rowCount } = await pool.query(`delete from songs where id = $1;`, [req.params.id]);
+    if (!rowCount) {
       return res.status(404).json({ message: "Brano non trovato." });
     }
-    songs.splice(index, 1);
-    await writeSongs(songs);
     res.status(204).end();
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.post("/api/reset", async (req, res, next) => {
-  try {
-    const seeds = await resetFromSeeds();
-    res.json({ ok: true, count: seeds.length });
   } catch (error) {
     next(error);
   }
@@ -128,39 +137,19 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Errore interno al server." });
 });
 
-await ensureDbFile();
 app.listen(PORT, () => {
   console.log(`Server pronto su http://localhost:${PORT}`);
 });
 
-async function ensureDbFile() {
-  await fs.mkdir(DB_DIR, { recursive: true });
-  try {
-    await fs.access(DB_PATH);
-  } catch {
-    await resetFromSeeds();
-  }
-}
-
-async function readSongs() {
-  const data = await fs.readFile(DB_PATH, "utf-8");
-  return JSON.parse(data);
-}
-
-async function writeSongs(songs) {
-  await fs.mkdir(DB_DIR, { recursive: true });
-  await fs.writeFile(DB_PATH, JSON.stringify(songs, null, 2), "utf-8");
-}
-
-async function resetFromSeeds() {
-  const seeds = await readSeeds();
-  await writeSongs(seeds);
-  return seeds;
-}
-
-async function readSeeds() {
-  const data = await fs.readFile(SEED_PATH, "utf-8");
-  return JSON.parse(data);
+function mapSongRow(row = {}) {
+  return {
+    id: row.id,
+    author: row.author,
+    title: row.title,
+    voices: row.voices || [],
+    instruments: row.instruments || [],
+    keyOffset: Number(row.key_offset) || 0,
+  };
 }
 
 function buildSongPayload(body = {}) {
@@ -233,9 +222,6 @@ function normalizeKeyOffset(value) {
 }
 
 function basicAuthGate(req, res, next) {
-  if (req.path === "/api/health") {
-    return next();
-  }
   const header = req.headers.authorization || "";
   if (isAuthorizedHeader(header)) {
     return next();
