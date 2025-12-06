@@ -163,13 +163,34 @@ function buildMessageRow(text, isError = false) {
 
 function createRow(song) {
   const tr = document.createElement("tr");
+  tr.dataset.rowId = song.id;
+
+  const authorText = song.author || "—";
+  const titleText = song.title || "—";
 
   const authorCell = document.createElement("td");
-  authorCell.textContent = song.author || "—";
   authorCell.dataset.label = "Autore";
+  const authorValue = document.createElement("span");
+  authorValue.className = "table-text";
+  authorValue.textContent = authorText;
+
+  const summaryButton = document.createElement("button");
+  summaryButton.type = "button";
+  summaryButton.className = "song-summary";
+  summaryButton.dataset.rowToggle = song.id;
+  summaryButton.setAttribute("aria-expanded", "false");
+  const summaryText = document.createElement("span");
+  summaryText.className = "song-summary__text";
+  summaryText.textContent = `${authorText} — ${titleText}`;
+  const summaryChevron = document.createElement("span");
+  summaryChevron.className = "song-summary__chevron";
+  summaryChevron.setAttribute("aria-hidden", "true");
+  summaryButton.append(summaryText, summaryChevron);
+
+  authorCell.append(summaryButton, authorValue);
 
   const titleCell = document.createElement("td");
-  titleCell.textContent = song.title;
+  titleCell.textContent = titleText;
   titleCell.dataset.label = "Titolo";
 
   const voiceCell = document.createElement("td");
@@ -322,6 +343,12 @@ async function handleReset() {
 }
 
 function handleTableClick(event) {
+  const toggleBtn = event.target.closest("[data-row-toggle]");
+  if (toggleBtn) {
+    toggleRowExpansion(toggleBtn.dataset.rowToggle);
+    return;
+  }
+
   const editBtn = event.target.closest("[data-edit-id]");
   if (editBtn) {
     const song = state.songs.find((item) => item.id === editBtn.dataset.editId);
@@ -652,4 +679,31 @@ function handleGlobalKeydown(event) {
   if (event.key === "Escape" && document.body.classList.contains("is-mobile-form-open")) {
     closeMobileForm();
   }
+}
+
+function toggleRowExpansion(id) {
+  if (!id) {
+    return;
+  }
+  const row = findRowById(id);
+  if (!row) {
+    return;
+  }
+  const willExpand = !row.classList.contains("is-expanded");
+  row.classList.toggle("is-expanded", willExpand);
+  const selectorId = escapeForSelector(id);
+  const toggleButton = row.querySelector(`[data-row-toggle="${selectorId}"]`);
+  toggleButton?.setAttribute("aria-expanded", String(willExpand));
+}
+
+function findRowById(id) {
+  const selectorId = escapeForSelector(id);
+  return elements.tableBody.querySelector(`tr[data-row-id="${selectorId}"]`);
+}
+
+function escapeForSelector(value) {
+  if (typeof CSS !== "undefined" && typeof CSS.escape === "function") {
+    return CSS.escape(value);
+  }
+  return String(value).replace(/["\\]/g, "\\$&");
 }
