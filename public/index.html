@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mchic</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="scripts.js"></script>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <h1>Scaletta Mchic</h1>
+        <div class="hero__stats">
+          <div>
+            <span id="song-count">0</span>
+            <small>brani totali</small>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="login-gate" class="login-gate">
+      <form id="login-form" class="login-card" autocomplete="off">
+        <h2>Accesso</h2>
+        <p class="login-subtitle">Inserisci le credenziali del gruppo.</p>
+        <label class="field">
+          <span>Utente</span>
+          <input id="login-user" name="loginUser" placeholder="mchic" required />
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input id="login-pass" name="loginPass" type="password" placeholder="••••••" required />
+        </label>
+        <p id="login-error" class="login-error is-hidden">Credenziali non valide, riprova.</p>
+        <button type="submit" class="btn btn--primary login-btn">Entra</button>
+      </form>
+    </div>
+
+    <main class="layout" aria-hidden="true">
+      <section class="card">
+        <h2>Nuovo brano</h2>
+        <form id="song-form" autocomplete="off">
+          <div class="grid grid--form">
+            <label class="field field--wide">
+              <span>Autore</span>
+              <input id="author-input" name="author" placeholder="Es. Ligabue" required />
+            </label>
+            <label class="field field--wide">
+              <span>Titolo</span>
+              <input id="title-input" name="title" placeholder="Es. La mia storia tra le dita" required />
+            </label>
+
+            <label class="field">
+              <span>Tonalità (± semitoni)</span>
+              <div class="tonality-control">
+                <div class="tonality-input">
+                  <input id="key-input" name="keyOffset" type="number" inputmode="decimal" step="0.5" value="0" />
+                </div>
+                <button type="button" class="tonality-btn" data-step="-0.5" aria-label="- mezzo tono">−</button>
+                <button type="button" class="tonality-btn" data-step="0.5" aria-label="+ mezzo tono">+</button>
+              </div>
+            </label>
+
+            <fieldset class="field field--checkboxes field--voices">
+              <legend>Voci</legend>
+              <p class="field__hint">Puoi selezionare una o entrambe le voci</p>
+              <div class="chips">
+                <label class="chip">
+                  <input type="checkbox" name="voices" value="lucio" checked />
+                  <span>Lucio</span>
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="voices" value="cristiano" />
+                  <span>Cristiano</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="field field--checkboxes field--instruments">
+              <legend>Strumenti aggiuntivi</legend>
+              <p class="field__hint">Una chitarra è sempre inclusa. Puoi scegliere se aggiungere una seconda chitarra oppure il basso.</p>
+              <div class="chips chips--radio">
+                <label class="chip">
+                  <input type="radio" name="extra-instrument" value="nessuno" checked />
+                  <span>Nessuno</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="extra-instrument" value="chitarra" />
+                  <span>Seconda chitarra</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="extra-instrument" value="basso" />
+                  <span>Basso</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="actions">
+            <button type="submit" id="submit-btn" class="btn btn--primary">Aggiungi brano</button>
+            <button type="button" id="cancel-edit-btn" class="btn btn--ghost is-hidden">Annulla modifica</button>
+          </div>
+          <p id="edit-banner" class="edit-banner is-hidden"></p>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="list-header">
+          <h2>Scaletta</h2>
+          <label class="field field--search">
+            <span class="sr-only">Filtra brani</span>
+            <input id="filter-input" placeholder="Filtra per titolo, voce o strumento" autocomplete="off" />
+          </label>
+        </div>
+        <div class="table-wrapper" aria-live="polite">
+          <table class="song-table">
+            <thead>
+              <tr>
+                <th scope="col">Autore</th>
+                <th scope="col">Titolo</th>
+                <th scope="col">Voci</th>
+                <th scope="col">Strumenti</th>
+                <th scope="col">Tonalità (± st)</th>
+                <th scope="col" class="sr-only">Azioni</th>
+              </tr>
+            </thead>
+            <tbody id="song-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

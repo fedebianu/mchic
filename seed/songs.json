@@ -1,0 +1,298 @@
+[
+  {
+    "id": "scaletta-01",
+    "title": "La mia storia tra le dita",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-02",
+    "title": "A mano a mano",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-03",
+    "title": "Aida",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-04",
+    "title": "Se telefonando",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-05",
+    "title": "L'emozione non ha voce",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-06",
+    "title": "Bella stronza",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-07",
+    "title": "Certe notti",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-08",
+    "title": "Gli anni",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-09",
+    "title": "Dubbi non ho",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-10",
+    "title": "Je so pazz",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-11",
+    "title": "Oggi sono io",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-12",
+    "title": "Volevo essere un duro",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "chitarra"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-13",
+    "title": "Balorda nostalgia",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-14",
+    "title": "Sognami / Non vivo più",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-15",
+    "title": "Me so mbriacato",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-16",
+    "title": "Gli immortali",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-17",
+    "title": "Bennato",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-18",
+    "title": "Britti",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-19",
+    "title": "Cambiare",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-20",
+    "title": "O surdat nnamurat",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "chitarra"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-21",
+    "title": "Bella davvero",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-22",
+    "title": "Marlena",
+    "author": "Da definire",
+    "voices": ["lucio", "cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-23",
+    "title": "Per due come noi",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": -3
+  },
+  {
+    "id": "scaletta-24",
+    "title": "Tango",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": -0.5
+  },
+  {
+    "id": "scaletta-25",
+    "title": "Yes I know my way",
+    "author": "Da definire",
+    "voices": ["lucio", "cristiano"],
+    "instruments": ["chitarra", "chitarra"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-26",
+    "title": "3 minuti",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-27",
+    "title": "L'immenso",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-28",
+    "title": "Un passo indietro",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-29",
+    "title": "Amandoti (settembre)",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "chitarra"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-30",
+    "title": "La felicità",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-31",
+    "title": "Hola",
+    "author": "Da definire",
+    "voices": ["lucio", "cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": -2
+  },
+  {
+    "id": "scaletta-32",
+    "title": "Gio Evans - Susy",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-33",
+    "title": "Amor",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": -0.5
+  },
+  {
+    "id": "scaletta-34",
+    "title": "Per sempre",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-35",
+    "title": "Rossetto e caffè",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-36",
+    "title": "Depresso fortunato",
+    "author": "Da definire",
+    "voices": ["lucio"],
+    "instruments": ["chitarra", "chitarra"],
+    "keyOffset": 0
+  },
+  {
+    "id": "scaletta-37",
+    "title": "Bottiglie vuote",
+    "author": "Da definire",
+    "voices": ["cristiano"],
+    "instruments": ["chitarra", "basso"],
+    "keyOffset": 0
+  }
+]
