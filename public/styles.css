@@ -37,12 +37,14 @@ svg {
 
 .hero {
   padding: 3rem 1.5rem 1rem;
+  display: flex;
+  justify-content: center;
 }
 
 .hero__content {
-  max-width: 800px;
-  margin: 0 auto;
+  width: min(800px, 100%);
   text-align: center;
+  padding-inline: 0;
 }
 
 .hero__stats {
@@ -61,14 +63,14 @@ svg {
 .layout {
   display: grid;
   gap: 1.5rem;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 1rem 1.5rem 3rem;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 960px) {
   .layout {
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: minmax(340px, 420px) minmax(0, 1fr);
     align-items: start;
   }
 }
@@ -405,7 +407,32 @@ svg {
 .song-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 500px;
+  min-width: 700px;
+  table-layout: fixed;
+}
+
+.col-author {
+  width: 18%;
+}
+
+.col-title {
+  width: 22%;
+}
+
+.col-voices {
+  width: 15%;
+}
+
+.col-instruments {
+  width: 20%;
+}
+
+.col-key {
+  width: 10%;
+}
+
+.col-actions {
+  width: 15%;
 }
 
 .song-table th,
@@ -481,5 +508,66 @@ svg {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    padding-inline: 1rem;
+  }
+
+  .hero__content {
+    padding-inline: 1rem;
+  }
+}
+
+@media (max-width: 720px) {
+  body {
+    background: #0f172a;
+  }
+
+  .song-table,
+  .song-table tbody,
+  .song-table tr,
+  .song-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .song-table thead {
+    display: none;
+  }
+
+  .song-table tbody tr {
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: var(--surface-alt);
+  }
+
+  .song-table td {
+    border-bottom: none;
+    padding: 0.35rem 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .song-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .table-actions {
+    justify-content: flex-start;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .song-table .table-btn {
+    flex: 1 1 45%;
+    text-align: center;
+  }
 }
 

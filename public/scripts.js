@@ -151,20 +151,26 @@ function createRow(song) {
 
   const authorCell = document.createElement("td");
   authorCell.textContent = song.author || "—";
+  authorCell.dataset.label = "Autore";
 
   const titleCell = document.createElement("td");
   titleCell.textContent = song.title;
+  titleCell.dataset.label = "Titolo";
 
   const voiceCell = document.createElement("td");
   voiceCell.textContent = formatVoices(song.voices);
+  voiceCell.dataset.label = "Voci";
 
   const instrumentsCell = document.createElement("td");
   instrumentsCell.textContent = formatInstruments(song.instruments);
+  instrumentsCell.dataset.label = "Strumenti";
 
   const keyCell = document.createElement("td");
   keyCell.textContent = formatKeyOffset(song.keyOffset);
+  keyCell.dataset.label = "Tonalità";
 
   const actionsCell = document.createElement("td");
+  actionsCell.dataset.label = "Azioni";
   const actions = document.createElement("div");
   actions.className = "table-actions";
 
