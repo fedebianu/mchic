@@ -23,7 +23,6 @@
     <div id="login-gate" class="login-gate">
       <form id="login-form" class="login-card" autocomplete="off">
         <h2>Accesso</h2>
-        <p class="login-subtitle">Inserisci le credenziali del gruppo.</p>
         <label class="field">
           <span>Utente</span>
           <input id="login-user" name="loginUser" placeholder="user" required />
@@ -38,8 +37,14 @@
     </div>
 
     <main class="layout" aria-hidden="true">
-      <section class="card">
-        <h2>Nuovo brano</h2>
+      <section class="card card--form" id="song-form-card">
+        <div class="card__header">
+          <h2>Nuovo brano</h2>
+          <button type="button" id="mobile-form-close" class="mobile-form-close" aria-controls="song-form-card">
+            <span aria-hidden="true">×</span>
+            <span class="sr-only">Chiudi form</span>
+          </button>
+        </div>
         <form id="song-form" autocomplete="off">
           <div class="grid grid--form">
             <label class="field field--wide">
@@ -106,10 +111,12 @@
 
       <section class="card">
         <div class="list-header">
-          <h2>Scaletta</h2>
+          <button type="button" id="mobile-form-open" class="mobile-form-open" aria-controls="song-form-card" aria-expanded="false">
+            Aggiungi brano
+          </button>
           <label class="field field--search">
             <span class="sr-only">Filtra brani</span>
-            <input id="filter-input" placeholder="Filtra per titolo, voce o strumento" autocomplete="off" />
+            <input id="filter-input" placeholder="Filtra per autore, titolo, voce o strumento" autocomplete="off" />
           </label>
         </div>
         <div class="table-wrapper" aria-live="polite">

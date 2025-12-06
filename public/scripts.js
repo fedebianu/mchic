@@ -17,6 +17,8 @@ const state = {
 };
 
 const mainElement = document.querySelector("main");
+const mobileFormMedia =
+  typeof window !== "undefined" && typeof window.matchMedia === "function" ? window.matchMedia("(max-width: 720px)") : null;
 
 const elements = {
   songCount: document.getElementById("song-count"),
@@ -29,6 +31,8 @@ const elements = {
   reset: document.getElementById("reset-btn"),
   filter: document.getElementById("filter-input"),
   tonalityButtons: Array.from(document.querySelectorAll(".tonality-btn")),
+  mobileFormOpen: document.getElementById("mobile-form-open"),
+  mobileFormClose: document.getElementById("mobile-form-close"),
   loginGate: document.getElementById("login-gate"),
   loginForm: document.getElementById("login-form"),
   loginUser: document.getElementById("login-user"),
@@ -44,6 +48,17 @@ const elements = {
 if (elements.loginForm) {
   elements.loginForm.addEventListener("submit", handleLoginSubmit);
 }
+
+if (mobileFormMedia) {
+  const listener = (event) => handleMobileViewportChange(event);
+  if (typeof mobileFormMedia.addEventListener === "function") {
+    mobileFormMedia.addEventListener("change", listener);
+  } else if (typeof mobileFormMedia.addListener === "function") {
+    mobileFormMedia.addListener(listener);
+  }
+}
+
+document.addEventListener("keydown", handleGlobalKeydown);
 
 if (state.authToken) {
   hideLoginGate();
@@ -243,6 +258,8 @@ function wireEvents() {
   elements.tableBody.addEventListener("click", handleTableClick);
   elements.filter.addEventListener("input", handleFilter);
   elements.tonalityButtons.forEach((btn) => btn.addEventListener("click", handleTonalityStep));
+  elements.mobileFormOpen?.addEventListener("click", openMobileForm);
+  elements.mobileFormClose?.addEventListener("click", () => closeMobileForm());
 }
 
 async function handleSubmit(event) {
@@ -280,6 +297,9 @@ async function handleSubmit(event) {
     exitEditMode();
     elements.titleInput.focus();
     await refreshSongs();
+    if (isMobileViewport()) {
+      closeMobileForm({ skipFocus: true });
+    }
   } catch (error) {
     state.errorMessage = error.message;
     render();
@@ -402,6 +422,9 @@ function enterEditMode(song) {
   applyInstrumentInputs(normalizeToArray(song.instruments));
   updateFormMode();
   elements.titleInput.focus();
+  if (isMobileViewport()) {
+    openMobileForm();
+  }
 }
 
 function exitEditMode() {
@@ -595,4 +618,38 @@ async function safeFetch(url, options = {}) {
     return null;
   }
   return response.json();
+}
+
+function openMobileForm() {
+  if (!isMobileViewport()) {
+    return;
+  }
+  document.body.classList.add("is-mobile-form-open");
+  elements.mobileFormOpen?.setAttribute("aria-expanded", "true");
+  elements.authorInput?.focus();
+}
+
+function closeMobileForm(options = {}) {
+  const { skipFocus = false } = options;
+  document.body.classList.remove("is-mobile-form-open");
+  elements.mobileFormOpen?.setAttribute("aria-expanded", "false");
+  if (!skipFocus && isMobileViewport()) {
+    elements.mobileFormOpen?.focus();
+  }
+}
+
+function isMobileViewport() {
+  return mobileFormMedia?.matches ?? false;
+}
+
+function handleMobileViewportChange(event) {
+  if (!event.matches) {
+    closeMobileForm({ skipFocus: true });
+  }
+}
+
+function handleGlobalKeydown(event) {
+  if (event.key === "Escape" && document.body.classList.contains("is-mobile-form-open")) {
+    closeMobileForm();
+  }
 }
