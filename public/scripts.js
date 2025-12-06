@@ -174,20 +174,22 @@ function createRow(song) {
   authorValue.className = "table-text";
   authorValue.textContent = authorText;
 
-  const summaryButton = document.createElement("button");
-  summaryButton.type = "button";
-  summaryButton.className = "song-summary";
-  summaryButton.dataset.rowToggle = song.id;
-  summaryButton.setAttribute("aria-expanded", "false");
-  const summaryText = document.createElement("span");
-  summaryText.className = "song-summary__text";
-  summaryText.textContent = `${authorText} — ${titleText}`;
-  const summaryChevron = document.createElement("span");
-  summaryChevron.className = "song-summary__chevron";
-  summaryChevron.setAttribute("aria-hidden", "true");
-  summaryButton.append(summaryText, summaryChevron);
+  const summaryWrapper = document.createElement("div");
+  summaryWrapper.className = "song-summary";
+  summaryWrapper.dataset.rowToggle = song.id;
+  summaryWrapper.setAttribute("aria-expanded", "false");
 
-  authorCell.append(summaryButton, authorValue);
+  const summaryAuthor = document.createElement("span");
+  summaryAuthor.className = "song-summary__author";
+  summaryAuthor.textContent = authorText;
+
+  const summaryTitle = document.createElement("span");
+  summaryTitle.className = "song-summary__title";
+  summaryTitle.textContent = titleText;
+
+  summaryWrapper.append(summaryAuthor, summaryTitle);
+
+  authorCell.append(summaryWrapper, authorValue);
 
   const titleCell = document.createElement("td");
   titleCell.textContent = titleText;
@@ -228,6 +230,17 @@ function createRow(song) {
   actionsCell.appendChild(actions);
 
   tr.append(authorCell, titleCell, voiceCell, instrumentsCell, keyCell, actionsCell);
+
+  tr.addEventListener("click", (event) => {
+    if (!isMobileViewport()) {
+      return;
+    }
+    if (event.target.closest(".table-actions") || event.target.closest("[data-edit-id]") || event.target.closest("[data-delete-id]")) {
+      return;
+    }
+    toggleRowExpansion(song.id);
+  });
+
   return tr;
 }
 
@@ -343,12 +356,6 @@ async function handleReset() {
 }
 
 function handleTableClick(event) {
-  const toggleBtn = event.target.closest("[data-row-toggle]");
-  if (toggleBtn) {
-    toggleRowExpansion(toggleBtn.dataset.rowToggle);
-    return;
-  }
-
   const editBtn = event.target.closest("[data-edit-id]");
   if (editBtn) {
     const song = state.songs.find((item) => item.id === editBtn.dataset.editId);

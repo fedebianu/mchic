@@ -416,11 +416,11 @@ svg {
   color: var(--text);
   font-size: 0.95rem;
   font-weight: 600;
-  text-align: left;
   cursor: pointer;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
@@ -433,25 +433,22 @@ svg {
   outline-offset: 3px;
 }
 
-.song-summary__text {
-  flex: 1;
+.song-summary__author {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.song-summary__title {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.song-summary__chevron {
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid var(--text-muted);
-  border-top: none;
-  border-left: none;
-  transform: rotate(45deg);
-  transition: transform 0.25s ease;
-}
-
-.song-summary[aria-expanded="true"] .song-summary__chevron {
-  transform: rotate(-135deg);
 }
 
 .mobile-form-open,
@@ -577,7 +574,6 @@ svg {
 .song-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px;
   table-layout: fixed;
 }
 
@@ -690,6 +686,12 @@ svg {
   }
 }
 
+@media (min-width: 900px) {
+  .song-table {
+    min-width: 700px;
+  }
+}
+
 @media (max-width: 640px) {
   .hero {
     padding: 2.75rem 1rem 0.5rem;
@@ -758,6 +760,11 @@ svg {
 
   .song-table td:first-child .table-text {
     display: none;
+  }
+
+  .song-table td:nth-child(2),
+  .song-table td:nth-child(2)::before {
+    display: none !important;
   }
 
   .song-table td::before {
