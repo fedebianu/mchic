@@ -302,7 +302,7 @@ async function handleSubmit(event) {
   const title = sanitize(elements.titleInput.value);
   const voices = getSelectedVoices();
   const instruments = buildInstrumentList();
-  const keyOffset = Number(elements.keyInput.value || 0);
+  const keyOffset = Math.round(Number(elements.keyInput.value || 0));
   const payload = { author, title, voices, instruments, keyOffset };
 
   if (!author) {
@@ -398,10 +398,8 @@ function handleTonalityStep(event) {
     return;
   }
   const current = Number(elements.keyInput.value || 0);
-  const next = Math.round((current + step) * 100) / 100;
-  const sanitized = Math.abs(next) === 0 ? 0 : next;
-  const text = Number.isInteger(sanitized) ? sanitized.toString() : sanitized.toString().replace(/(\.\d)0$/, "$1");
-  elements.keyInput.value = text;
+  const next = Math.round(current + step);
+  elements.keyInput.value = next.toString();
 }
 
 function getFilteredSongs() {
